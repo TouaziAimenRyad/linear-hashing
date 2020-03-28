@@ -86,6 +86,15 @@ animations.prototype={
         });
     },
 
+    animeMiseAjour:function (a) {
+        anime({
+            targets:a,
+            backgroundColor:[{value:"#1bff3c",duration:400},{value: '#ffffff'}],
+        borderColor:[{value:"#1bff3c",duration:300},{value: '#000000'}]
+        })
+
+    }
+
 
 
 };
@@ -218,6 +227,8 @@ class fichier{
     miseajourInfo(){
         var f=document.getElementById('information');
         f.innerHTML='<h> pointeur d eclatement : '+this.next+'    '+'ordre de fichier :  '+this.ordreF+'    '+'taille de fichier :  '+this.tailleF+'    '+'taux de chargement : '+this.Tcharg+'</h>';
+        var a =new animations();
+        a.animeMiseAjour(f);
     }
 
 
@@ -361,12 +372,44 @@ var a=new animations()
 
 
 
+    recherche(cle){
+        var a=this.adress(cle);
+        var trouv=false;
+        var i=0;
+        while(i<this.tabBloc[a].tabenrg.length && trouv==false){
+            if (this.tabBloc[a].tabenrg[i]==cle){
+                trouv=true;
+            }
+            else {
+                trouv=false;
+            }
+            i++;
+        }
+        if (trouv==false){
+            var j =0;
+            while (j<this.tabBloc[a].taboverflow.length && trouv==false){
+                if (this.tabBloc[a].taboverflow[j]==cle){
+                    trouv=true;
+                }
+                else {
+                    trouv=false;
+                }
+                j++;
+            }
+        }
+        var b=[trouv,a];
+        return b;
+
+    }
 
 
 
 
 
 }
+
+
+
 
 var tabenr1=[];
 var tabenr2=[];
@@ -410,5 +453,7 @@ for(var j=0;j<fich.tailleF;j++){
     fich.alloc_bloc(j);
 }
 
-
+fich.insertion(5);
+fich.insertion(6);
+fich.insertion(7);
 
