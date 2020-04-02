@@ -50,7 +50,7 @@ animations.prototype={
 
     animeenrg:function(bloc,enrg){ ////////////////////////////////////////////
         anime({
-            targets:document.getElementById('enreg'+(enrg+2)+'block'+bloc),
+            targets:document.getElementById('enreg'+(enrg)+'block'+bloc),
             //translateY:20,
             //  translateX: 0,
             opacity:1,
@@ -58,6 +58,19 @@ animations.prototype={
                 value: '#000000'
             }]
         });
+    },
+
+    animecase:function(bloc,enrg){
+        anime({
+            targets:document.getElementById('case'+(enrg)+'overflow'+bloc),
+            //translateY:20,
+            //  translateX: 0,
+            opacity:1,
+            borderColor:[{value:"#ffda06",duration:500},{
+                value: '#000000'
+            }]
+        });
+
     },
 
 
@@ -305,7 +318,7 @@ class fichier{
                     f=document.getElementById('enreg'+loc+'block'+z);
                    a.animeblock(z);
                     f.innerHTML='<p class="bata">'+m+'</p>';
-                    await sleep(500);
+                    await sleep(800);
 
                 }
 
@@ -316,7 +329,7 @@ class fichier{
                     a.animeoverflow(z);
                     f.innerHTML='<p class="bata">'+m+'</p>';
                     f.style.opacity=1;
-                    await sleep(500);
+                    await sleep(800);
                }
 
             }
@@ -353,7 +366,7 @@ class fichier{
                         f=document.getElementById('enreg'+loc+'block'+y);
                       a.animeblock(y);
                         f.innerHTML='<p class="bata">'+m+'</p>';
-                      await sleep(500);
+                      await sleep(800);
                     }
                     else{
                         this.tabBloc[y].taboverflow.push(m);
@@ -362,7 +375,7 @@ class fichier{
                         a.animeoverflow(z)
                         f.innerHTML='<p class="bata">'+m+'</p>';
                         f.style.opacity=1;
-                        await sleep(500);
+                        await sleep(800);
                     }
 
                 }
@@ -405,29 +418,40 @@ class fichier{
 
 
 
-
-    recherche(cle){
+   async recherche(cle){
+        var b=new animations();
         var a=this.adress(cle);
         var trouv=false;
         var i=0;
+        b.animeblock(a);
+
         while(i<this.tabBloc[a].tabenrg.length && trouv==false){
+            b.animeenrg(a,i);
             if (this.tabBloc[a].tabenrg[i]==cle){
                 trouv=true;
+                var f=document.getElementById('enreg'+i+'block'+a);
+                f.style.backgroundColor="#3aff3c";
             }
             else {
                 trouv=false;
             }
+            await sleep(500);
             i++;
         }
-        if (trouv==false){
+        if (trouv==false && this.tabBloc[a].taboverflow.length>0 ){
+            b.animeoverflow(a);
             var j =0;
             while (j<this.tabBloc[a].taboverflow.length && trouv==false){
+                b.animecase(a,j);
                 if (this.tabBloc[a].taboverflow[j]==cle){
                     trouv=true;
+                    var f=document.getElementById('case'+j+'overflow'+a);
+                    f.style.backgroundColor="#3aff3c";
                 }
                 else {
                     trouv=false;
                 }
+                await sleep(500)
                 j++;
             }
         }
@@ -488,3 +512,24 @@ for(var j=0;j<fich.tailleF;j++){
 }
  fich.miseajourInfo();
 
+
+function insere() {
+
+    let s=prompt("Veuillez tapez cle a inserer:");
+    fich.insertion(s);
+
+
+
+}
+function rech() {
+    if (fich.Tcharg!=0){
+        let a=prompt('Veuillez tapez la cle a rechercher:');
+        fich.recherche(a);
+    }
+    else {
+        alert("Le fichier est vide");
+    }
+}
+
+document.getElementById('inserer').onclick=insere;
+document.getElementById('rechercher').onclick=rech;
