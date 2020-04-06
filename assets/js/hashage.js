@@ -9,15 +9,7 @@ function animations() {
 }
 animations.prototype={
     constructor:animations(),
-    animeblockdown:function (nmrdublock) {
-        anime({
-            targets:document.getElementById('block'+(nmrdublock+1)),
-            translateY:200,
-            translateX:0,
-            duration:1000,
-            easing:'linear'
-        });
-    },
+
     animeblock:function (nmrdublock) { //pour animer lire dire///////////////////////////////////
         anime({
             targets:document.getElementById('block'+(nmrdublock)),
@@ -30,6 +22,15 @@ animations.prototype={
             backgroundColor:[{value:'#0ac4ff',duration:800},{value:'#fff'}]
 
         });
+    },
+
+
+
+    animetrouv:function(f){
+        anime({
+            targets:f,
+            backgroundColor:[{value:'#06ff00',duration:2000},{value:'#fff'}]
+        })
     },
 
     animeoverflow:function(nmrdublock){
@@ -60,6 +61,8 @@ animations.prototype={
         });
     },
 
+
+
     animecase:function(bloc,enrg){
         anime({
             targets:document.getElementById('case'+(enrg)+'overflow'+bloc),
@@ -74,29 +77,9 @@ animations.prototype={
     },
 
 
-    animenreg:function (nmrDuBlock,nmrEnreg,color) {
-        let a=document.getElementById('enreg'+(nmrEnreg+1)+'block'+(nmrDuBlock+1));
-        anime({
-            targets:a,
-            width:[{value:21 ,duration:500},
-                {value: 20}
-            ],
-            height:[{value:21,duration:500},
-                {value: 20}],
-            backgroundColor:[{value:color,
-                duration:500,},
-                {
-                    value: '#ffffff'
-                }]
-        })
 
-    },
-    anime_border_enreg:function (nmrBlock,nmrEnreg,borderColor) {
-        anime({
-            targets:'enreg'+(nmrEnreg+1)+'block'+(nmrBlock+1),
-            borderTopColor:borderColor,
-        });
-    },
+
+    
 
     animealgo:function(a){
         anime({
@@ -253,6 +236,7 @@ class fichier{
         var a =new animations();
         a.animeMiseAjour(f);
     }
+
 
 
 
@@ -430,8 +414,8 @@ class fichier{
             if (this.tabBloc[a].tabenrg[i]==cle){
                 trouv=true;
                 var f=document.getElementById('enreg'+i+'block'+a);
-                f.style.backgroundColor="#3aff3c";
-            }
+                b.animetrouv(f);
+        }
             else {
                 trouv=false;
             }
@@ -446,14 +430,19 @@ class fichier{
                 if (this.tabBloc[a].taboverflow[j]==cle){
                     trouv=true;
                     var f=document.getElementById('case'+j+'overflow'+a);
-                    f.style.backgroundColor="#3aff3c";
+                    b.animetrouv(f);
                 }
                 else {
                     trouv=false;
                 }
-                await sleep(500)
+                await sleep(500);
                 j++;
             }
+        }
+        if(trouv==false){
+            var p=document.getElementById('calculadr');
+            p.innerHTML='<p> element not found</p>';
+
         }
         var b=[trouv,a];
         return b;
