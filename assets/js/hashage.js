@@ -279,7 +279,9 @@ class fichier{
 
 
         this.Tcharg=this.tauxchargmnt();
+
         if(this.Tcharg>70){
+            await sleep(800);
             p.innerHTML='<p id="adr">ECLATEMENT</p>';
             (this.tailleF)++;
             this.Tcharg=this.tauxchargmnt();
@@ -363,6 +365,12 @@ class fichier{
                     }
 
                 }
+
+                if(this.tabBloc[this.next].taboverflow.length==0){/////////////////////////////////////////////////////////////////////////////////////
+                    var g=document.getElementById('overflow'+this.next);
+                    g.style.opacity=0;
+
+                }
                 for(var i=0;i<5;i++){
                     var f =document.getElementById('case'+i+'overflow'+this.next);
                     if(this.tabBloc[this.next].taboverflow[i]!=undefined) {
@@ -374,6 +382,8 @@ class fichier{
                         f.style.opacity=0;
                     }
                 }
+
+
 
 
 
