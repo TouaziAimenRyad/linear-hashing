@@ -84,7 +84,7 @@ animations.prototype={
     animealgo:function(a){
         anime({
             targets:a,
-            backgroundColor:[{value:'#ff5611',duration:700},{value: '#fff'}]
+            backgroundColor:[{value:'#ff9022',duration:700},{value: '#fff'}]
         })
 
     },
@@ -232,7 +232,7 @@ class fichier{
 
     miseajourInfo(){
         var f=document.getElementById('information');
-        f.innerHTML='<p> pointeur d eclatement : '+this.next+'  <br>  '+'ordre de fichier :  '+this.ordreF+'  <br>  '+'taille de fichier :  '+this.tailleF+'  <br>  '+'taux de chargement : '+this.Tcharg+'</p>';
+        f.innerHTML='<p> &nbsp  &nbsp &nbsp pointeur d eclatement : '+this.next+'  &nbsp  &nbsp &nbsp  '+'ordre de fichier :  '+this.ordreF+'   &nbsp  &nbsp &nbsp '+'taille de fichier :  '+this.tailleF+'  &nbsp  &nbsp &nbsp  '+'taux de chargement : '+this.Tcharg+'&nbsp  &nbsp &nbsp</p>';
         var a =new animations();
         a.animeMiseAjour(f);
     }
@@ -242,20 +242,24 @@ class fichier{
 
    async insertion(cle){
         var a=new animations();
+        var algo=document.getElementById('information2');
+        algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp Insertion</p> <p id="1">calcule_adress(cle)</p> <p id="2">verification si le bloc n\'est pas plein</p>  <p id="3">&nbsp &nbsp  &nbsp si oui: insertion dans bloc</p>  <p id="4">   &nbsp &nbsp  &nbsp  sinon insertion dans la zone de debordement </p>    <p id="5">verification si le taux de chargement depasse 70%</p>  <p id="6"> &nbsp &nbsp  &nbsp si oui : ECLATEMENT</p>  <p id="7">verification si ptr<sub>eclatement</sub> = 2<sup>ordre de fichier</sup></p>  <p id="8"> &nbsp &nbsp  &nbsp si oui : incrementation d\'ordre de fichier</p>';
+       await sleep(1000);
        var p=document.getElementById('calculadr');
        var o=document.getElementById('1');
        a.animealgo(o);
-       await sleep(1000);
        var x=this.adress(cle);
 
        await sleep(500);
-       o=document.getElementById('2');
-       a.animealgo(o);
+       var o2;
+       o2=document.getElementById('2');
+       a.animealgo(o2);
        if (this.tabBloc[x].tabenrg.length<this.nbMAXenrg){
             this.tabBloc[x].tabenrg.push(cle);
             var loc=this.tabBloc[x].tabenrg.indexOf(cle);
-            o=document.getElementById('4');
-            a.animealgo(o);
+            var o3;
+            o3=document.getElementById('3');
+            a.animealgo(o3);
             await sleep(1000);
             var f= document.getElementById('enreg'+loc+'block'+x);
             a.animeblock(x);
@@ -265,8 +269,9 @@ class fichier{
         else{
             this.tabBloc[x].taboverflow.push(cle);
             var loc=this.tabBloc[x].taboverflow.indexOf(cle);
-            o=document.getElementById('4');
-            a.animealgo(o);
+            var o4;
+            o4=document.getElementById('4');
+            a.animealgo(o4);
             await sleep(1000);
             var f=document.getElementById('case'+loc+'overflow'+x);
             a.animeblock(x);
@@ -279,9 +284,14 @@ class fichier{
 
 
         this.Tcharg=this.tauxchargmnt();
-
+        var o5;
+       o5=document.getElementById('5');
+       a.animealgo(o5);
         if(this.Tcharg>70){
             await sleep(800);
+            var o6;
+            o6=document.getElementById('6');
+            a.animealgo(o6);
             p.innerHTML='<p id="adr">ECLATEMENT</p>';
             (this.tailleF)++;
             this.Tcharg=this.tauxchargmnt();
@@ -395,7 +405,13 @@ class fichier{
 
 
         }
+        var o7;
+       o7=document.getElementById('7');
+       a.animealgo(o7);
         if(this.next==Math.pow(2,this.ordreF)){
+            var o8;
+            o8=document.getElementById('8');
+            a.animealgo(o8);
             this.next=0;
             this.ordreF++;
         }
