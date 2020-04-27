@@ -29,7 +29,7 @@ animations.prototype={
     animetrouv:function(f){
         anime({
             targets:f,
-            backgroundColor:[{value:'#06ff00',duration:2000},{value:'#fff'}]
+            backgroundColor:[{value:'#06ff00',duration:3500},{value:'#fff'}]
         })
     },
 
@@ -232,7 +232,7 @@ class fichier{
 
     miseajourInfo(){
         var f=document.getElementById('information');
-        f.innerHTML='<p> &nbsp  &nbsp &nbsp pointeur d eclatement : '+this.next+'  &nbsp  &nbsp &nbsp  '+'ordre de fichier :  '+this.ordreF+'   &nbsp  &nbsp &nbsp '+'taille de fichier :  '+this.tailleF+'  &nbsp  &nbsp &nbsp  '+'taux de chargement : '+this.Tcharg+'&nbsp  &nbsp &nbsp</p>';
+        f.innerHTML='<p> &nbsp  &nbsp &nbsp pointeur d eclatement : '+this.next+'  &nbsp  &nbsp &nbsp  '+'ordre de fichier :  '+this.ordreF+'   &nbsp  &nbsp &nbsp '+'taille de fichier :  '+this.tailleF+'  &nbsp  &nbsp &nbsp  '+'taux de chargement : '+this.Tcharg+'</p>';
         var a =new animations();
         a.animeMiseAjour(f);
     }
@@ -430,11 +430,18 @@ class fichier{
 
    async recherche(cle){
         var b=new animations();
+       var algo=document.getElementById('information2');
+       algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp Recherche</p> <p id="1">calcule_adress(cle)</p> <p id="2">Recheche séquentiel dans le bloc</p>  <p id="3">verification si l\'element existe dans le bloc</p>  <p id="4">   &nbsp &nbsp  &nbsp  sinon recherche sequentiel dans la zone de debordement </p> ';
+       await sleep(1000);
         var a=this.adress(cle);
+        var o =document.getElementById('1');
+        b.animealgo(o);
+        await sleep(300);
         var trouv=false;
         var i=0;
         b.animeblock(a);
-
+       var o2 =document.getElementById('2');
+       b.animealgo(o2);
         while(i<this.tabBloc[a].tabenrg.length && trouv==false){
             b.animeenrg(a,i);
             if (this.tabBloc[a].tabenrg[i]==cle){
@@ -448,7 +455,11 @@ class fichier{
             await sleep(500);
             i++;
         }
+       var o3 =document.getElementById('3');
+       b.animealgo(o3);
         if (trouv==false && this.tabBloc[a].taboverflow.length>0 ){
+            var o4 =document.getElementById('4');
+            b.animealgo(o4);
             b.animeoverflow(a);
             var j =0;
             while (j<this.tabBloc[a].taboverflow.length && trouv==false){
