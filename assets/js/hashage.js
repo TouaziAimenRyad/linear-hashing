@@ -243,23 +243,19 @@ class fichier{
    async insertion(cle){
         var a=new animations();
         var algo=document.getElementById('information2');
-        algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp Insertion</p> <p id="1">calcule_adress(cle)</p> <p id="2">verification si le bloc n\'est pas plein</p>  <p id="3">&nbsp &nbsp  &nbsp si oui: insertion dans bloc</p>  <p id="4">   &nbsp &nbsp  &nbsp  sinon insertion dans la zone de debordement </p>    <p id="5">verification si le taux de chargement depasse 70%</p>  <p id="6"> &nbsp &nbsp  &nbsp si oui : ECLATEMENT</p>  <p id="7">verification si ptr<sub>eclatement</sub> = 2<sup>ordre de fichier</sup></p>  <p id="8"> &nbsp &nbsp  &nbsp si oui : incrementation d\'ordre de fichier</p>';
+        algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp Insertion</p>  ';
        await sleep(1000);
        var p=document.getElementById('calculadr');
-       var o=document.getElementById('1');
-       a.animealgo(o);
+      algo.innerHTML+='<p>calcule adress H('+cle+') </p>';
        var x=this.adress(cle);
 
-       await sleep(500);
-       var o2;
-       o2=document.getElementById('2');
-       a.animealgo(o2);
+       await sleep(1000);
+
+
        if (this.tabBloc[x].tabenrg.length<this.nbMAXenrg){
             this.tabBloc[x].tabenrg.push(cle);
             var loc=this.tabBloc[x].tabenrg.indexOf(cle);
-            var o3;
-            o3=document.getElementById('3');
-            a.animealgo(o3);
+           algo.innerHTML+='<p>insertion dans le bloc '+x+'s\'il n\'est pas plein</p>';
             await sleep(1000);
             var f= document.getElementById('enreg'+loc+'block'+x);
             a.animeblock(x);
@@ -269,9 +265,7 @@ class fichier{
         else{
             this.tabBloc[x].taboverflow.push(cle);
             var loc=this.tabBloc[x].taboverflow.indexOf(cle);
-            var o4;
-            o4=document.getElementById('4');
-            a.animealgo(o4);
+           algo.innerHTML+='<p>insertion dans la zone debordement du bloc '+x+'s\'il est pas plein</p>';
             await sleep(1000);
             var f=document.getElementById('case'+loc+'overflow'+x);
             a.animeblock(x);
@@ -284,15 +278,17 @@ class fichier{
 
 
         this.Tcharg=this.tauxchargmnt();
-        var o5;
-       o5=document.getElementById('5');
-       a.animealgo(o5);
+
         if(this.Tcharg>70){
             await sleep(800);
-            var o6;
-            o6=document.getElementById('6');
-            a.animealgo(o6);
+
+            algo.innerHTML+='<p>Taux de chargement ='+this.Tcharg+' dépasse 70% </p>';
             p.innerHTML='<p id="adr">ECLATEMENT</p>';
+            await sleep(500);
+            algo.innerHTML+='<p>ECLATEMENT du bloc n° '+this.next+'</p>';
+            await sleep(500);
+            algo.innerHTML+='<p>Rehashage du bloc n° '+this.next+'</p>';
+
             (this.tailleF)++;
             this.Tcharg=this.tauxchargmnt();
             this.alloc_bloc(this.tailleF-1);
@@ -405,13 +401,13 @@ class fichier{
 
 
         }
-        var o7;
-       o7=document.getElementById('7');
-       a.animealgo(o7);
+
         if(this.next==Math.pow(2,this.ordreF)){
-            var o8;
-            o8=document.getElementById('8');
-            a.animealgo(o8);
+            algo.innerHTML+='<p> ptr d\'eclatement '+this.next+' = 2 <sup>ordrede fichier</sup> </p>';
+            await sleep(500);
+            algo.innerHTML+='<p>reintialiser le ptr d\'eclatement à 0  </p>';
+            algo.innerHTML+='<p>incrementer l\'ordre de fichier  </p>';
+
             this.next=0;
             this.ordreF++;
         }
@@ -431,18 +427,18 @@ class fichier{
    async recherche(cle){
         var b=new animations();
        var algo=document.getElementById('information2');
-       algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp Recherche</p> <p id="1">calcule_adress(cle)</p> <p id="2">Recheche séquentiel dans le bloc</p>  <p id="3">verification si l\'element existe dans le bloc</p>  <p id="4">   &nbsp &nbsp  &nbsp  sinon recherche sequentiel dans la zone de debordement </p> ';
+       algo.innerHTML='<p id="titre">&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp  &nbsp Recherche</p> ';
        await sleep(1000);
+
         var a=this.adress(cle);
-        var o =document.getElementById('1');
-        b.animealgo(o);
-        await sleep(300);
+       algo.innerHTML+='<p> calcule adress H('+cle+')='+a+' </p>';
+        await sleep(500);
         var trouv=false;
         var i=0;
         b.animeblock(a);
-       var o2 =document.getElementById('2');
-       b.animealgo(o2);
-        while(i<this.tabBloc[a].tabenrg.length && trouv==false){
+       algo.innerHTML+='<p> recherche séquentiel dans le bloc'+a+' </p>';
+
+       while(i<this.tabBloc[a].tabenrg.length && trouv==false){
             b.animeenrg(a,i);
             if (this.tabBloc[a].tabenrg[i]==cle){
                 trouv=true;
@@ -455,11 +451,10 @@ class fichier{
             await sleep(500);
             i++;
         }
-       var o3 =document.getElementById('3');
-       b.animealgo(o3);
+
         if (trouv==false && this.tabBloc[a].taboverflow.length>0 ){
-            var o4 =document.getElementById('4');
-            b.animealgo(o4);
+            await sleep(500);
+            algo.innerHTML+='<p> recherche séquentiel dans la zone de debordement du bloc'+a+' </p>';
             b.animeoverflow(a);
             var j =0;
             while (j<this.tabBloc[a].taboverflow.length && trouv==false){
@@ -479,6 +474,11 @@ class fichier{
         if(trouv==false){
             var p=document.getElementById('calculadr');
             p.innerHTML='<p> element not found</p>';
+            algo.innerHTML+='<p id="conc2">&nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp&nbsp  &nbsp &nbsp  '+cle+' n\'existe pas et cencé etre a cette position</p>';
+
+        }
+        else {
+            algo.innerHTML+='<p id="conc">&nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp&nbsp  &nbsp &nbsp  &nbsp &nbsp &nbsp '+cle+' existe dans le bloc '+a+' </p>';
 
         }
         var b=[trouv,a];
